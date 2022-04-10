@@ -4,13 +4,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.codechallenge.api.RetrofitInstance
+import com.example.codechallenge.common.Resource
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import com.example.codechallenge.model.Character
+import com.example.codechallenge.usecase.FetchCharacterUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
-class DetailViewModel : ViewModel() {
+@HiltViewModel
+class DetailViewModel @Inject constructor(
+    private val fetchCharacterUseCase: FetchCharacterUseCase
+) : ViewModel() {
 
     val detail: LiveData<Character>
         get() = _detail
@@ -21,14 +27,23 @@ class DetailViewModel : ViewModel() {
     }
 
     fun fetchImageDetail(imageId: String) {
-        viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
-            val response = RetrofitInstance.api.fetchDetail(imageId)
-            if (response.isSuccessful && response.body() != null) {
-                response.body()?.let {
-                    _detail.postValue(it)
-                }
+        fetchCharacterUseCase(imageId).onEach { result ->
+            when (result) {
+                is Resource.Success ->
+                    _detail.postValue(result.data!!)
+//                is Result.Error -> //TODO
+//
+//                is Result.Loading ->  //TODO
             }
-        }
+        }.launchIn(viewModelScope)
+//        viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
+//            val response = RetrofitInstance.api.fetchDetail(imageId)
+//            if (response.isSuccessful && response.body() != null) {
+//                response.body()?.let {
+//                    _detail.postValue(it)
+//                }
+//            }
+//        }
     }
 }
 

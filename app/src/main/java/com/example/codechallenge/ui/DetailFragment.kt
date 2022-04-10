@@ -12,7 +12,9 @@ import com.example.codechallenge.databinding.FragmentDetailBinding
 import com.example.codechallenge.model.Character
 import com.example.codechallenge.viewmodel.DetailViewModel
 import com.squareup.picasso.Picasso
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DetailFragment : Fragment() {
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!

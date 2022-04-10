@@ -1,6 +1,8 @@
 package com.example.codechallenge
 
 import com.example.codechallenge.api.ApiService
+import com.example.codechallenge.api.CharacterRepository
+import com.example.codechallenge.api.CharacterRepositoryImpl
 import com.example.codechallenge.common.Constants
 import dagger.Module
 import dagger.Provides
@@ -22,5 +24,11 @@ object AppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRepository(api: ApiService): CharacterRepository {
+        return CharacterRepositoryImpl(api)
     }
 }

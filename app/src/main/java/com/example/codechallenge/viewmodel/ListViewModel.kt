@@ -6,19 +6,23 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.codechallenge.model.Character
 import androidx.lifecycle.viewModelScope
-import com.example.codechallenge.api.RetrofitInstance
+import com.example.codechallenge.common.Resource
+import com.example.codechallenge.usecase.FetchCharactersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
-class ListViewModel @Inject constructor() : ViewModel() {
+class ListViewModel @Inject constructor(
+    private val fetchCharactersUseCase: FetchCharactersUseCase
+) : ViewModel() {
 
     val pictureList: LiveData<List<Character>>
         get() = _pictureList
     private val _pictureList = MutableLiveData<List<Character>>()
+
 
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
         // Log Error
@@ -26,17 +30,15 @@ class ListViewModel @Inject constructor() : ViewModel() {
         // Todo: error handling
 
     }
-
-    fun load() {
-        viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
-            val response =
-                RetrofitInstance.api.fetchImages()
-
-            if (response.isSuccessful && response.body() != null) {
-                _pictureList.postValue(response.body()!!.results)
+    fun load(){
+        fetchCharactersUseCase().onEach { result ->
+            when (result) {
+                is Resource.Success ->
+                    _pictureList.postValue(result.data?.results)
+//                is Result.Error -> //TODO
+//
+//                is Result.Loading ->  //TODO
             }
-
-
-        }
+        }.launchIn(viewModelScope)
     }
 }
