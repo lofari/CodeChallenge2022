@@ -18,9 +18,9 @@ class FetchCharactersUseCase @Inject constructor(
             val charactersResponse = repository.fetchImages()
             emit(Resource.Success(charactersResponse))
         } catch (e: HttpException) {
-//            emit(Resource.Error(e.localizedMessage ?: "An unexpected error ocurred"))
+            emit(Resource.Error(e.localizedMessage ?: "An unexpected error ocurred")) as Resource<CharactersResponse>
         } catch (e: IOException) {
-//            emit(Resource.Error( "An unexpected error ocurred"))
+            emit(Resource.Error( "An unexpected error ocurred"))  as Resource<CharactersResponse>
         }
     }
 }
