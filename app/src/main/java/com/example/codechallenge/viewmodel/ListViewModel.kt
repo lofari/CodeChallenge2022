@@ -23,13 +23,10 @@ class ListViewModel @Inject constructor(
         get() = _pictureList
     private val _pictureList = MutableLiveData<List<Character>>()
 
-
-    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        // Log Error
-        Log.e("TAG", "TEST")
-        // Todo: error handling
-
+    init {
+        load()
     }
+
     fun load(){
         fetchCharactersUseCase().onEach { result ->
             when (result) {
