@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/black">
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/imageView"
@@ -29,6 +28,7 @@
         app:layout_constraintStart_toStartOf="@id/imageView"
         app:layout_constraintTop_toTopOf="@id/imageView"
         app:lottie_autoPlay="true"
+        app:lottie_colorFilter="@color/black"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/loading_animation"
         app:lottie_scale="0.6" />
@@ -39,7 +39,6 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="8dp"
-        android:textColor="@android:color/white"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@id/status"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,7 +49,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:textColor="@android:color/white"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@id/species"
         app:layout_constraintStart_toStartOf="@id/name"
@@ -61,7 +59,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:textColor="@android:color/white"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/name"

@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import com.example.codechallenge.common.Constants
 import com.example.codechallenge.databinding.FragmentDetailBinding
 import com.example.codechallenge.model.Character
 import com.example.codechallenge.viewmodel.DetailViewModel
 import com.squareup.picasso.Picasso
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DetailFragment : Fragment() {
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
@@ -29,16 +29,10 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setDetailObserver()
-
-        arguments?.getString(Constants.CACHE_KEY).let {
-            if (it != null) {
-                viewModel.fetchImageDetail(it)
-            }
-        }
     }
 
     private fun setDetailObserver() {
-        viewModel.detail.observe(this, Observer {
+        viewModel.detail.observe(this, {
             setContent(it)
         })
     }

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.fragment.findNavController
 import com.example.codechallenge.R
 import com.example.codechallenge.databinding.FragmentWelcomeBinding
@@ -27,6 +28,13 @@ class WelcomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.startButton.setOnClickListener {
             findNavController().navigate(R.id.action_mainFragment_to_listFragment)
+        }
+        binding.animationView.setOnClickListener {
+            if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
         }
     }
 

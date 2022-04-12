@@ -44,7 +44,6 @@ class ListFragment : Fragment(),
     private fun initActions() {
         setPicturesObserver()
         setLayoutManager()
-        viewModel.load()
     }
 
     private fun setLayoutManager() {
