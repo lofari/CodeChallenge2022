@@ -15,6 +15,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        hideNotificationBar()
+    }
+
+    private fun hideNotificationBar() {
         supportActionBar!!.hide()
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
     }
