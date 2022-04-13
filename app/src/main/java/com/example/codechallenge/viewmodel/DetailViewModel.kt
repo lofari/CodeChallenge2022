@@ -35,9 +35,12 @@ class DetailViewModel @Inject constructor(
             when (result) {
                 is Resource.Success ->
                     _detail.postValue(result.data!!)
-//                is Result.Error -> //TODO
-//
-//                is Result.Loading ->  //TODO
+                is Resource.Error -> {
+
+                }
+                is Resource.Loading -> {
+
+                }
             }
         }.launchIn(viewModelScope)
     }

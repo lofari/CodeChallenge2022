@@ -9,7 +9,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.codechallenge.common.Resource
 import com.example.codechallenge.usecase.FetchCharactersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -27,14 +26,21 @@ class ListViewModel @Inject constructor(
         load()
     }
 
-    fun load(){
+    fun load() {
         fetchCharactersUseCase().onEach { result ->
             when (result) {
-                is Resource.Success ->
+                is Resource.Success -> {
                     _pictureList.postValue(result.data?.results)
-//                is Result.Error -> //TODO
-//
-//                is Result.Loading ->  //TODO
+
+                }
+                is Resource.Error -> {
+                    _pictureList.postValue(emptyList())
+
+                }
+                is Resource.Loading -> {
+                    _pictureList.postValue(emptyList())
+
+                }
             }
         }.launchIn(viewModelScope)
     }

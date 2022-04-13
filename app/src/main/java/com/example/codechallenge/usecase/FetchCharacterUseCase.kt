@@ -18,9 +18,10 @@ class FetchCharacterUseCase @Inject constructor(
             val character = repository.fetchDetail(id)
             emit(Resource.Success(character))
         } catch (e: HttpException) {
-            emit(Resource.Error(e.localizedMessage ?: "An unexpected error ocurred") ) as Resource<Character>
+            emit(Resource.Error<Character>(e.localizedMessage ?: "An unexpected error ocurred") )
         } catch (e: IOException) {
-            emit(Resource.Error( "An unexpected error ocurred")) as Resource<Character>
+            emit(Resource.Error<Character>( "An unexpected error ocurred"))
         }
+
     }
 }
