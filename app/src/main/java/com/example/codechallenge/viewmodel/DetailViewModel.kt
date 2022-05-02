@@ -20,9 +20,9 @@ class DetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    val detail: LiveData<Character>
+    val detail: LiveData<Resource<Character>>
         get() = _detail
-    private val _detail = MutableLiveData<Character>()
+    private val _detail = MutableLiveData<Resource<Character>>()
 
     init {
         savedStateHandle.get<String>(Constants.CACHE_KEY)?.let {
@@ -34,12 +34,12 @@ class DetailViewModel @Inject constructor(
         fetchCharacterUseCase(imageId).onEach { result ->
             when (result) {
                 is Resource.Success ->
-                    _detail.postValue(result.data!!)
+                    _detail.postValue(result)
                 is Resource.Error -> {
-
+                    _detail.postValue(result)
                 }
                 is Resource.Loading -> {
-
+                    _detail.postValue(result)
                 }
             }
         }.launchIn(viewModelScope)

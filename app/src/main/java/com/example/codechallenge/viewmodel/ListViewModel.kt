@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.example.codechallenge.model.Character
 import androidx.lifecycle.viewModelScope
 import com.example.codechallenge.common.Resource
+import com.example.codechallenge.model.CharactersResponse
 import com.example.codechallenge.usecase.FetchCharactersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -18,9 +19,9 @@ class ListViewModel @Inject constructor(
     private val fetchCharactersUseCase: FetchCharactersUseCase
 ) : ViewModel() {
 
-    val pictureList: LiveData<List<Character>>
+    val pictureList: LiveData<Resource<CharactersResponse>>
         get() = _pictureList
-    private val _pictureList = MutableLiveData<List<Character>>()
+    private val _pictureList = MutableLiveData<Resource<CharactersResponse>>()
 
     init {
         load()
@@ -30,15 +31,15 @@ class ListViewModel @Inject constructor(
         fetchCharactersUseCase().onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _pictureList.postValue(result.data?.results)
+                    _pictureList.postValue(result)
 
                 }
                 is Resource.Error -> {
-                    _pictureList.postValue(emptyList())
+                    _pictureList.postValue(Resource.Error("${result.message}"))
 
                 }
                 is Resource.Loading -> {
-                    _pictureList.postValue(emptyList())
+                    _pictureList.postValue(Resource.Loading())
 
                 }
             }

@@ -34,7 +34,7 @@ class DetailFragment : Fragment() {
 
     private fun setDetailObserver() {
         viewModel.detail.observe(this, {
-            setContent(it)
+            it.data?.let { character -> setContent(character) }
         })
     }
 

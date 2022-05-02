@@ -55,7 +55,7 @@ class ListFragment : Fragment(),
         viewModel.pictureList.observe(viewLifecycleOwner, {
             binding.loading.visibility = View.GONE
             binding.loading.pauseAnimation()
-            initList(it)
+            it.data?.let { characterResponse -> initList(characterResponse.results) }
         })
     }
 
