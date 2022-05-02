@@ -33,7 +33,7 @@ class DetailFragment : Fragment() {
     }
 
     private fun setDetailObserver() {
-        viewModel.detail.observe(this, {
+        viewModel.detail.observe(viewLifecycleOwner, {
             it.data?.let { character -> setContent(character) }
         })
     }
