@@ -52,7 +52,7 @@ class ListFragment : Fragment(),
     }
 
     private fun setPicturesObserver() {
-        viewModel.pictureList.observe(this, {
+        viewModel.pictureList.observe(viewLifecycleOwner, {
             binding.loading.visibility = View.GONE
             binding.loading.pauseAnimation()
             initList(it)
