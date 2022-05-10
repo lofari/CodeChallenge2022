@@ -5,7 +5,7 @@ import com.example.codechallenge.model.CharactersResponse
 
 interface CharacterRepository {
 
-    suspend fun fetchImages(): CharactersResponse
+    suspend fun fetchImages(page: Int): CharactersResponse
 
     suspend fun fetchDetail(id: String): Character
 }

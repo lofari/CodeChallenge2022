@@ -12,10 +12,10 @@ import javax.inject.Inject
 class FetchCharactersUseCase @Inject constructor(
     private val repository: CharacterRepository
 ) {
-    operator fun invoke(): Flow<Resource<CharactersResponse>> = flow {
+    operator fun invoke(page: Int): Flow<Resource<CharactersResponse>> = flow {
         try {
             emit(Resource.Loading())
-            val charactersResponse = repository.fetchImages()
+            val charactersResponse = repository.fetchImages(page)
             emit(Resource.Success(charactersResponse))
         } catch (e: HttpException) {
             emit(Resource.Error<CharactersResponse>(e.localizedMessage ?: "An unexpected error ocurred"))

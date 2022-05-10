@@ -3,6 +3,8 @@ package com.example.codechallenge.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.codechallenge.R
 import com.example.codechallenge.databinding.ListItemBinding
@@ -10,10 +12,9 @@ import com.example.codechallenge.model.Character
 import com.squareup.picasso.Picasso
 
 class PictureAdapter(
-    private val modelList: List<Character>,
     private val clickListener: OnImageClickListener
 ) :
-    RecyclerView.Adapter<PictureAdapter.PictureViewHolder>() {
+    PagingDataAdapter<Character, PictureAdapter.PictureViewHolder>(DiffUtilCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PictureViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -26,21 +27,31 @@ class PictureAdapter(
         )
     }
 
-    override fun getItemCount(): Int = modelList.size
-
     override fun onBindViewHolder(holder: PictureViewHolder, position: Int) {
-        holder.bindData(modelList[position], clickListener)
+        getItem(position)?.let { holder.bindData(it, clickListener) }
     }
 
     class PictureViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-        fun bindData(model: Character, action: OnImageClickListener) {
+        fun bindData(character: Character, action: OnImageClickListener) {
             val binding = ListItemBinding.bind(view)
-            Picasso.get().load(model.image).into(binding.itemImage)
+            Picasso.get().load(character.image).into(binding.itemImage)
             view.setOnClickListener {
-                action.onItemClick(model, adapterPosition)
+                action.onItemClick(character, adapterPosition)
             }
         }
     }
+}
+
+class DiffUtilCallback : DiffUtil.ItemCallback<Character>() {
+    override fun areItemsTheSame(oldItem: Character, newItem: Character): Boolean {
+        return oldItem.name == newItem.name
+    }
+
+    override fun areContentsTheSame(oldItem: Character, newItem: Character): Boolean {
+        return oldItem.name == newItem.name
+            && oldItem.species == newItem.species
+    }
+
 }
 
 interface OnImageClickListener {

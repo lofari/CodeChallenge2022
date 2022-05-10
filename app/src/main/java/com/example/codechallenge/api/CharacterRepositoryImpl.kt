@@ -7,8 +7,8 @@ import javax.inject.Inject
 class CharacterRepositoryImpl @Inject constructor(
     private val api: ApiService
 ): CharacterRepository {
-    override suspend fun fetchImages(): CharactersResponse {
-        return api.fetchImages()
+    override suspend fun fetchImages(page: Int): CharactersResponse {
+        return api.fetchImages(page)
     }
 
     override suspend fun fetchDetail(id: String): Character {

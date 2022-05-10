@@ -7,8 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.codechallenge.common.Constants
 import com.example.codechallenge.R
@@ -18,6 +21,7 @@ import com.example.codechallenge.adapter.PictureAdapter
 import com.example.codechallenge.databinding.FragmentListBinding
 import com.example.codechallenge.model.Character
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class ListFragment : Fragment(),
@@ -26,6 +30,7 @@ class ListFragment : Fragment(),
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModels<ListViewModel>()
+    private lateinit var adapter: PictureAdapter
 
 
     override fun onCreateView(
@@ -38,8 +43,14 @@ class ListFragment : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setPicturesObserver()
+        initActions()
+
+    }
+
+    private fun initActions() {
         setLayoutManager()
+        setPicturesObserver()
+        initList()
     }
 
     private fun setLayoutManager() {
@@ -54,16 +65,19 @@ class ListFragment : Fragment(),
     private fun setPicturesObserver() {
         viewModel.pictureList.observe(viewLifecycleOwner, {
             binding.loading.visibility = View.GONE
-            binding.loading.pauseAnimation()
-            it.data?.let { characterResponse -> initList(characterResponse.results) }
         })
     }
 
-    private fun initList(imageList: List<Character>) {
-        val adapter =
-            PictureAdapter(imageList, this)
+    private fun initList() {
+        adapter =
+            PictureAdapter(this)
         binding.list.adapter = adapter
         binding.list.isClickable = true
+        lifecycleScope.launchWhenCreated {
+            viewModel.getList().collectLatest {
+                adapter.submitData(it)
+            }
+        }
     }
 
     override fun onItemClick(item: Character, position: Int) {
