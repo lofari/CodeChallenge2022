@@ -27,7 +27,7 @@ class ListViewModel @Inject constructor(
         load()
     }
 
-    fun load() {
+    private fun load() {
         fetchCharactersUseCase().onEach { result ->
             when (result) {
                 is Resource.Success -> {

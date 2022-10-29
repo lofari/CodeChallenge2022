@@ -1,4 +1,4 @@
-package com.example.codechallenge.ui
+package com.example.codechallenge.ui.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
