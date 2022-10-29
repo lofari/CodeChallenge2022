@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.example.codechallenge.ui.WelcomeFragment"
+        android:name="com.example.codechallenge.ui.view.WelcomeFragment"
         android:label="fragment_main"
         tools:layout="@layout/fragment_welcome" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/listFragment"
-        android:name="com.example.codechallenge.ui.ListFragment"
+        android:name="com.example.codechallenge.ui.view.ListFragment"
         android:label="ListFragment" >
         <action
             android:id="@+id/action_listFragment_to_detailFragment"
@@ -24,6 +24,6 @@
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.example.codechallenge.ui.DetailFragment"
+        android:name="com.example.codechallenge.ui.view.DetailFragment"
         android:label="DetailFragment" />
 </navigation>
