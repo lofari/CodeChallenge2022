@@ -1,18 +1,16 @@
 package com.example.codechallenge.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.codechallenge.model.Character
 import androidx.lifecycle.viewModelScope
 import com.example.codechallenge.common.Resource
 import com.example.codechallenge.model.CharactersResponse
 import com.example.codechallenge.usecase.FetchCharactersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import javax.inject.Inject
 
 @HiltViewModel
 class ListViewModel @Inject constructor(
@@ -32,15 +30,12 @@ class ListViewModel @Inject constructor(
             when (result) {
                 is Resource.Success -> {
                     _pictureList.postValue(result)
-
                 }
                 is Resource.Error -> {
                     _pictureList.postValue(Resource.Error("${result.message}"))
-
                 }
                 is Resource.Loading -> {
                     _pictureList.postValue(Resource.Loading())
-
                 }
             }
         }.launchIn(viewModelScope)

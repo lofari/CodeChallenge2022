@@ -20,7 +20,8 @@ class DetailFragment : Fragment() {
     private val viewModel by viewModels<DetailViewModel>()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
@@ -33,9 +34,9 @@ class DetailFragment : Fragment() {
     }
 
     private fun setDetailObserver() {
-        viewModel.detail.observe(viewLifecycleOwner, {
+        viewModel.detail.observe(viewLifecycleOwner) {
             it.data?.let { character -> setContent(character) }
-        })
+        }
     }
 
     private fun setImageFromUrl(image: String) {
@@ -43,7 +44,6 @@ class DetailFragment : Fragment() {
         binding.loading.visibility = View.GONE
         Picasso.get().load(image).into(binding.imageView)
         fadeIn(binding.imageView)
-
     }
 
     private fun fadeIn(view: View) {
@@ -66,6 +66,4 @@ class DetailFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-
 }

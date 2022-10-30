@@ -10,9 +10,9 @@ import com.example.codechallenge.common.Resource
 import com.example.codechallenge.model.Character
 import com.example.codechallenge.usecase.FetchCharacterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(
@@ -45,4 +45,3 @@ class DetailViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 }
-

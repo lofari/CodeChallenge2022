@@ -15,6 +15,4 @@ interface ApiService {
     suspend fun fetchDetail(
         @Path("id") id: String
     ): Character
-
-
 }

@@ -1,26 +1,18 @@
 package com.example.codechallenge.ui.view
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.codechallenge.R
 import com.example.codechallenge.databinding.FragmentWelcomeBinding
 import com.example.codechallenge.ui.extension.typeWrite
-import kotlinx.coroutines.CoroutineStart
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.consumeEach
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class WelcomeFragment : Fragment() {
 
@@ -28,7 +20,8 @@ class WelcomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentWelcomeBinding.inflate(inflater, container, false)
@@ -48,14 +41,14 @@ class WelcomeFragment : Fragment() {
             binding.welcomeTitle.bringToFront()
 
             activity?.lifecycleScope?.launch {
-
             }
-            binding.welcomeTitle.typeWrite(viewLifecycleOwner, listOf("Psst...   ","Click Me!") , 150L)
-
+            binding.welcomeTitle.typeWrite(
+                viewLifecycleOwner,
+                listOf("Psst...   ", "Click Me!"),
+                150L
+            )
         }
-
     }
-
 
     private fun setAnimationClickListener() {
         binding.animationView.setOnClickListener {

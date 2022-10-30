@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class CharacterRepositoryImpl @Inject constructor(
     private val api: ApiService
-): CharacterRepository {
+) : CharacterRepository {
     override suspend fun fetchImages(): CharactersResponse {
         return api.fetchImages()
     }
