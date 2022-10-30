@@ -53,11 +53,11 @@ class ListFragment :
     }
 
     private fun setPicturesObserver() {
-        viewModel.pictureList.observe(viewLifecycleOwner, {
+        viewModel.pictureList.observe(viewLifecycleOwner) {
             binding.loading.visibility = View.GONE
             binding.loading.pauseAnimation()
             it.data?.let { characterResponse -> initList(characterResponse.results) }
-        })
+        }
     }
 
     private fun initList(imageList: List<Character>) {
