@@ -35,7 +35,11 @@ class PictureAdapter(
     class PictureViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         fun bindData(model: Character, action: OnImageClickListener) {
             val binding = ListItemBinding.bind(view)
-            Picasso.get().load(model.image).into(binding.itemImage)
+            Picasso.get()
+                .load(model.image)
+                .fit().centerCrop()
+                .placeholder(R.drawable.progress_animation)
+                .into(binding.itemImage)
             view.setOnClickListener {
                 action.onItemClick(model, adapterPosition)
             }
